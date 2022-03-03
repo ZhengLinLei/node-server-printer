@@ -1,0 +1,34 @@
+{
+  "name": "node-server-printer",
+  "version": "1.0.0",
+  "description": "Print things with your phone, table and PC with a printer server",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.2",
+    "bootstrap": "^5.1.3",
+    "cors": "^2.8.5",
+    "ejs": "^3.1.6",
+    "express": "^4.17.3",
+    "express-fileupload": "^1.3.1",
+    "fs": "0.0.1-security",
+    "fs-extra": "^10.0.1",
+    "html-pdf": "^3.0.1",
+    "lodash": "^4.17.21",
+    "morgan": "^1.10.0",
+    "path": "^0.12.7",
+    "pdf-to-printer": "^5.2.0",
+    "unix-print": "^1.1.0",
+    "zuzel-printer": "^1.0.4"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}

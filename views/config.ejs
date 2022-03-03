@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Printers Config - Printer Server</title>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+    <style>
+        *{
+            font-family: monospace;
+        }
+        .loader{
+            position: fixed;
+            display: none;
+            z-index: 99;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+        ul{
+            list-style: none;
+        }
+        ul li{
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <!-- Transparent loader -->
+    <div class="loader justify-content-center align-items-center">
+        <div class="spinner-border text-light" role="status">
+        </div>
+    </div>
+    <!-- ------------- -->
+    <header class="p-3 pt-5 text-center">
+        <h2>Default settings</h2>
+    </header>
+    <main class="px-3 py-5 d-flex align-items-center flex-column">
+        <div class="error mb-2 d-none">
+            <span class="text-danger">Error connection: Try again.</span>
+        </div>
+        <div class="border p-3 rounded">
+            <h3>A. Current printer</h3>
+            <div class="p-2">
+                <p>Default printer: <b><%= def.name %></b></p>
+                <ul id="pr">
+                    <% for(var i = 0; i < printers.length; i++) {%>
+                        <li><input type="checkbox" class="pr-btn" id="pr-<%= printers[i].name %>" <% if(printers[i].name == def.name){ %> checked <% } %>> <label for="pr-<%= printers[i].name %>"><%= printers[i].name %></label></li>
+                    <% } %>
+                </ul>
+            </div>
+        </div>
+        <div class="p-3 d-flex justify-content-end">
+            <button class="btn btn-primary" id="uploadAll">Update</button>
+        </div>
+    </main>
+
+    <!-- All inline -->
+    <script>
+        let params = {
+            printer: "<%= def.name %>"
+        }
+        //
+        document.querySelectorAll('#pr li input[type="checkbox"]').forEach(element => {
+            element.addEventListener('change', ()=>{
+                params.printer = element.id.split("-").pop();;
+                document.querySelectorAll('#pr li input[type="checkbox"]').forEach(i =>{
+                    if(i != element) i.checked = false;
+                });
+            })
+        });
+
+
+        document.getElementById('uploadAll').addEventListener('click', ()=>{
+            document.querySelector('.loader').style.display = "flex";
+            fetch('/config', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(params)
+            })
+            .then(res => res.json())
+            .then(res => {
+                // Get the response value
+                document.querySelector('.loader').style.display = "none";
+                alert('Data Uploaded!')
+
+            })
+            .catch( e =>{
+                document.querySelector('.loader').style.display = "none";
+
+                document.querySelector('.error').classList.remove("d-none");
+                setTimeout(()=>{
+                    document.querySelector('.error').classList.add("d-none");
+                }, 3000);
+            });
+        });
+    </script>
+</body>
+</html>
