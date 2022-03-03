@@ -1,0 +1,1 @@
+This is an empty folder to host the temporal files, you can disable the autoclean option in '../config/server.js' file and turn `TMPautocleaner = true` into `false` value
