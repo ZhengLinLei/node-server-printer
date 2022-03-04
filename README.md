@@ -96,7 +96,7 @@ module.exports = SERVER_CONFIG;
 
 The system will choose the default values, but you can change it with two ways:
 
-#### 1. GUI mode:
+#### - 1. GUI mode:
 
 To access you must go to 'server.domain/config' url or in '/' you can find an acnchor url where if you click it you will be redirected to settings page.
 
@@ -130,7 +130,7 @@ router.get('/config', async (req, res) =>{
 ```
 
 
-### 2. Code mode:
+#### - 2. Code mode:
 
 Call the controller in `./controllers/controller.js` and call this function:
 ```javascript
@@ -143,7 +143,7 @@ Controller.setConfig(param, value);
 ```
 
 Avaliables parameters:
-* `printer`: <values> (str:name of the printer)
+* `printer`: [values] (str:name of the printer)
 
 You can read the avaliables parameters in `./models/model.js` file with or calling it in `Controller` object:
 ```javascript
@@ -177,7 +177,7 @@ Once you have all, open `http://localhost:3000` (change the port if you have cha
 
 All functions can be modified and added in `./controllers/controller.js` and `./models/model.js`
 
-### cleanTMP_() => void
+### - cleanTMP_() => void
 
 Call this function to clean the TMP folder:
 ```javascript
@@ -190,11 +190,11 @@ app.listen(app.get('port'), ()=>{
 });
 ```
 
-### setConfig: (param[str], value[str | boolean]) => boolean
+### - setConfig: (param[str], value[str | boolean]) => boolean
 
 This function update the default options, please read [Configuration](#config) for more information
 
-### getPrinter() => json <promise>
+### - getPrinter() => json [promise]
 
 Call this function to get the default printer
 ```javascript
@@ -212,7 +212,7 @@ Controller.getPrinter().then(console.log);
 ```
 
 
-### <a name="printer-list"></a> getPrinters => json[] <promise>
+### - <a name="printer-list"></a> getPrinters => json[] [promise]
 
 Same as `getPrinter`, but in this case the function return the array of all printers
 ```js
@@ -245,7 +245,7 @@ Controller.getPrinters().then(console.log);
 // ]
 ```
 
-### printFile(filename[str], options[json], fnc[function]) => boolean <promise>
+### - printFile(filename[str], options[json], fnc[function]) => boolean [promise]
 
 To print any file, prepare the print options template
 ```js
@@ -285,19 +285,19 @@ router.post('/print/:type/:printer?', async (req, res) =>{}); // ./routes/index.
 
 * :type => Only `file` and `html` argument can be accepted.
     
-    * file: Upload any `pdf`, `png`, `jpg` file to print. POST method <file>
-    * html: Upload `html` string to print. POST method <html>
+    * file: Upload any `pdf`, `png`, `jpg` file to print. POST method "file"
+    * html: Upload `html` string to print. POST method "html"
 
-**You must specify the type, and in POST content include the data with the name of <file> or <html>**
+**You must specify the type, and in POST content include the data with the name of "file" or "html"**
 
 * :printer => Specify the printer name, optional parameter, if you leave it in blank the system will choose the default printer to print
 
 ### Parameters POST
 
-* <file> => FILE content, you must upload this content if you want to print `file` content and you have specified `:type` as file in GET parameters
+* [file] => FILE content, you must upload this content if you want to print `file` content and you have specified `:type` as file in GET parameters
 
-* <html> => If you choose in `:type` the `html` option, you have to pass this POST content
-* <pdfOptions> => Additionally when you choose `html` type you have to pass the options to convert the HTML into PDF
+* [html] => If you choose in `:type` the `html` option, you have to pass this POST content
+* [pdfOptions>] => Additionally when you choose `html` type you have to pass the options to convert the HTML into PDF
 ```javascript
 
 // Example pdfOption
