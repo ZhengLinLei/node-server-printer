@@ -1,8 +1,8 @@
 # Node.js PDF printing
 
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.sv)](https://opensource.org/licenses/Apache-2.0) &nbsp;
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) &nbsp;
 ![Version](https://img.shields.io/badge/version-0.6-brightgreen) &nbsp;
-![NPM]("https://img.shields.io/badge/NPM%20project-yellow)
+![NPM]("https://img.shields.io/badge/NPM-project-yellow)
 
 # How it dows work?
 
