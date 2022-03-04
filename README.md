@@ -1,25 +1,277 @@
-<center>
-<h1>Node.js Printer Server</h1>
+<h1 align="center">Node.js Printer Server</h1>
 
-<span style="text-align:center">Make you own printer network with a simple software. Connect all your printers into one server</span>
+<p align="center">
+  <i>Make you own printer network with a simple software. Connect all your printers into one server</i>
+</p>
 
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) &nbsp;
-![Version](https://img.shields.io/badge/version-0.6-brightgreen) &nbsp;
-![NPM]("https://img.shields.io/badge/NPM-project-yellow)
-</center>
+<p align="center">
+  <a href="https://opensource.org/licenses/Apache-2.0">
+    <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt=" License" />
+  </a>&nbsp;
+  <a>
+    <img src="https://img.shields.io/badge/version-0.6-brightgreen" alt="Version" /> 
+    <!-- v0.6 -->
+  </a>&nbsp;
+  <a>
+    <img src="https://img.shields.io/badge/NPM-project-yellow" alt="NPM" />
+  </a>
+</p>
 
+<hr>
 
-## Help us to improve the project
+## 💡 Help us to improve the project
+
 1. [Issues](https://github.com/ZhengLinLei/node-server-printer/issues)
-2. [Contribute](https://github.com/ZhengLinLei/node-server-printer/pull-request)
+2. [Contribute](https://github.com/ZhengLinLei/node-server-printer/pulls)
 
-## How it dows work?
+This project was made with the support of those packages:
+- [https://github.com/artiebits/pdf-to-printer](https://github.com/artiebits/pdf-to-printer) Windows
+- [https://github.com/artiebits/unix-print](https://github.com/artiebits/unix-print) Unix
+- [https://www.npmjs.com/package/zuzel-printer](https://www.npmjs.com/package/zuzel-printer) Support package
+- [https://github.com/marcbachmann/node-html-pdf](https://github.com/marcbachmann/node-html-pdf) PDF conversor
+
+<br><br><br>
+
+## How does it work?
 
 This project create a Node server where any device can connect to the web server and print any Printer connected into the server.
 
 **Example schema:**
+
 ![Schema](./docs/node-server-printer.png)
 
 
 # 🗺 Roadmap Index
-1. 
+
+1. [Installation](#installation)
+2. [Configuration](#config)
+3. [Execution](#exe)
+4. [API](#api)
+5. [How to print?](#howto)
+
+
+## <a name="installation"></a> Installation
+
+Clone the project or download the last release compressed `.rar`
+```
+git clone https://github.com/ZhengLinLei/node-server-printer.git
+```
+
+Once you have downloaded the project, run the `npm` install command:
+```
+# cd to the project and run this command
+
+npm install
+
+
+# NPM will download all the packages automatically
+```
+
+**Now continue to configurate the project files and personal datas.**
+
+
+## <a name="config"></a> Configuration
+
+Open the project in your code editor and change some configuration.
+
+### Server configuration
+
+Open the file `./config/server.js` and modify all the values with the correct situation:
+```javascript
+const SERVER_CONFIG = {
+    "name": "node-server-printer",
+    // REPLACE TO YOUR DEFAULT PORT
+    "port": 3000, // Deploy port :80
+    "welcome-text": "Server on port: $port", // Variables: $port, $ip, $domain
+
+    // SERVER OS
+    "os": "win32" // Values ["win32", "unix"]
+}
+
+module.exports = SERVER_CONFIG;
+```
+
+**Note: Please configurate correctly the OS value, or else the server will not work**
+
+### Printer configuration
+
+The system will choose the default values, but you can change it with two ways:
+
+#### 1. GUI mode:
+
+To access you must go to 'server.domain/config' url or in '/' you can find an acnchor url where if you click it you will be redirected to settings page.
+
+```javascript
+/*===============
+ ./routes/index.js (7 - 26)
+================*/
+
+
+// Personalizate
+router.get('/', (req, res) =>{
+    // Replace all here to your project main frontend files
+    res.render('index', {
+        title: "Welcome!"
+    })
+});
+
+/* ... */
+
+// Module default
+router.get('/config', async (req, res) =>{
+    // Get printer list to config
+    let def = await Controller.getPrinter();        // Get the Default Printer
+    let printers = await Controller.getPrinters();    // Get the list of Printers
+
+    res.render('config', {
+        def,
+        printers
+    });
+});
+```
+
+
+### 2. Code mode:
+
+Call the controller in `./controllers/controller.js` and call this function:
+```javascript
+const Controller = require('./controllers/controller'); // Change the patyh according to your position
+
+let param = 'printer'; // Read below to check the parameters accepted
+let value = 'NAME_PRINTER';
+
+Controller.setConfig(param, value);
+```
+
+Avaliables parameters:
+* `printer`: <values> (str:name of the printer)
+
+You can read the avaliables parameters in `./models/model.js` file with or calling it in `Controller` object:
+```javascript
+const Controller = require('./controllers/controller'); // Change the patyh according to your position
+
+console.log(Controller.DATA_DEFAULT);
+```
+
+To get the list of the printers, click [here](#printers-list)
+
+
+## <a name="exe"></a> Execution
+
+Run the project by calling the `index.js` file with node
+```bash
+node index.js
+# or
+npm run start
+```
+
+or call it with [Nodemon](https://www.npmjs.com/package/nodemon), so you can save the project and the server will update automatically
+```bash
+npm run dev
+```
+
+
+Once you have all, open `http://localhost:3000` (change the port if you have changed in the server config file), if you can see the welcome page means you have executed the project succesfully. Continue reading to know the [API](#api) functions
+
+
+## <a name="api"></a> API
+
+All functions can be modified and added in `./controllers/controller.js` and `./models/model.js`
+
+### cleanTMP_() => void
+
+Call this function to clean the TMP folder:
+```javascript
+// ./index.js (43 - 47)
+
+app.listen(app.get('port'), ()=>{
+    Controller.cleanTMP_(); // Remove all temporal files
+    // Server activated
+    console.log(app.get('welcome-text'));
+});
+```
+
+### setConfig: (param[str], value[str | boolean]) => boolean
+
+This function update the default options, please read [Configuration](#config) for more information
+
+### getPrinter() => json <promise>
+
+Call this function to get the default printer
+```javascript
+const Controller = require('./controllers/controller.js');
+
+// Method 1:
+(async function fnc(){
+    console.log(await Controller.getPrinter());
+})();
+
+// Method 2:
+Controller.getPrinter().then(console.log);
+
+// Output { deviceId: 'XP-80C', name: 'XP-80C' }
+```
+
+
+### <a name="printer-list"></a> getPrinters => json[] <promise>
+
+Same as `getPrinter`, but in this case the function return the array of all printers
+```js
+const Controller = require('./controllers/controller.js');
+
+// Method 1:
+(async function fnc(){
+    console.log(await Controller.getPrinters());
+})();
+
+// Method 2:
+Controller.getPrinters().then(console.log);
+
+// Output 
+// [
+//   { deviceId: 'XP-80C', name: 'XP-80C' },
+//   {
+//     deviceId: 'Microsoft XPS Document Writer',
+//     name: 'Microsoft XPS Document Writer'
+//   },
+//   {
+//     deviceId: 'Microsoft Print to PDF',
+//     name: 'Microsoft Print to PDF'
+//   },
+//   {
+//     deviceId: 'OneNote for Windows 10',
+//     name: 'OneNote for Windows 10'
+//   },
+//   { deviceId: 'Fax', name: 'Fax' }
+// ]
+```
+
+### printFile(filename[str], options[json], fnc[function]) => boolean <promise>
+
+To print any file, prepare the print options template
+```js
+let option = {
+    printer: 'Zebra', //[can be declared in GET parameter, if you specify this option, the system will choose this option as first printer]
+    pages: "1-3,5", //[The number of page that the client want to print: syntax <num-num> will print the pages from "num" to "num", <num, num> will only print the "num" and "num" pages]
+    subset: "odd", //[Will print odd pages only when value is "odd". Will print even pages only when "even"] 
+    scale: "fit",
+    copies: 1 //[Specifies how many copies will be printed]
+    //... [More options in https://github.com/artiebits/pdf-to-printer#printpdf-options--promisevoid]
+}
+```
+
+And call it:
+```js
+const Controller = require('./controllers/controller.js');
+
+Controller.printFile('./tmp/file.pdf', {printer: "Fax"}, () =>{
+    console.log('Printed!!');
+})
+```
+
+
+
+**Note: All of those functions are for internal calling, for knowing the structure of the server and for helping you to undestand how to modify the source code and personalizate it to create your own version. If you are looking for server API to client print please continue reading**
+
+
+## <a name="howto"></a> How to print?

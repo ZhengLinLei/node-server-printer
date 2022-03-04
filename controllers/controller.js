@@ -82,7 +82,7 @@ const Controller = {
     },
 
     // Final proccess: Print
-    printFile: async (filename, options, fnc) => {
+    printFile: (filename, options, fnc) => {
         Model.printFile('../tmp/'+filename, options, {
             "printer": Controller.getPrinter().name
         }, fnc);
