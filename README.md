@@ -30,9 +30,8 @@ This project was made with the support of those packages:
 - [https://www.npmjs.com/package/zuzel-printer](https://www.npmjs.com/package/zuzel-printer) Support package
 - [https://github.com/marcbachmann/node-html-pdf](https://github.com/marcbachmann/node-html-pdf) PDF conversor
 
-<br><br><br>
 
-## How does it work?
+## ⚙ How does it work?
 
 This project create a Node server where any device can connect to the web server and print any Printer connected into the server.
 
@@ -275,3 +274,156 @@ Controller.printFile('./tmp/file.pdf', {printer: "Fax"}, () =>{
 
 
 ## <a name="howto"></a> How to print?
+
+The query path is : `server.domain/print/:type/:printer?`
+
+```js
+router.post('/print/:type/:printer?', async (req, res) =>{}); // ./routes/index.js (47 ~)
+```
+
+### Parameters GET
+
+* :type => Only `file` and `html` argument can be accepted.
+    
+    * file: Upload any `pdf`, `png`, `jpg` file to print. POST method <file>
+    * html: Upload `html` string to print. POST method <html>
+
+**You must specify the type, and in POST content include the data with the name of <file> or <html>**
+
+* :printer => Specify the printer name, optional parameter, if you leave it in blank the system will choose the default printer to print
+
+### Parameters POST
+
+* <file> => FILE content, you must upload this content if you want to print `file` content and you have specified `:type` as file in GET parameters
+
+* <html> => If you choose in `:type` the `html` option, you have to pass this POST content
+* <pdfOptions> => Additionally when you choose `html` type you have to pass the options to convert the HTML into PDF
+```javascript
+
+// Example pdfOption
+let config = {
+    // Export options
+    "directory": "/tmp",       // The directory the file gets written into if not using .toFile(filename, callback). default: '/tmp'
+    // Papersize Options: http://phantomjs.org/api/webpage/property/paper-size.html
+    "height": "10.5in",        // allowed units: mm, cm, in, px
+    "width": "8in",            // allowed units: mm, cm, in, px
+    //- or -
+    "format": "Letter",        // allowed units: A3, A4, A5, Legal, Letter, Tabloid
+    "orientation": "portrait", // portrait or landscape
+    // Page options
+    "border": "0",             // default is 0, units: mm, cm, in, px
+    //- or -
+    "border": {
+        "top": "2in",            // default is 0, units: mm, cm, in, px
+        "right": "1in",
+        "bottom": "2in",
+        "left": "1.5in"
+    },
+    "paginationOffset": 1,       // Override the initial pagination number
+    "header": {
+        "height": "45mm",
+        "contents": '<div style="text-align: center;">Author: Marc Bachmann</div>'
+    },
+    "footer": {
+        "height": "28mm",
+        "contents": {
+            "first": 'Cover page',
+            2: 'Second page', // Any page number is working. 1-based index
+            "default": '<span style="color: #444;">{{page}}</span>/<span>{{pages}}</span>', // fallback value
+            "last": 'Last Page'
+        }
+    },
+    // Rendering options
+    "base": "file:///home/www/your-asset-path/", // Base path that's used to load files (images, css, js) when they aren't referenced using a host
+    // Zooming option, can be used to scale images if `options.type` is not pdf
+    "zoomFactor": "1", // default is 1
+    // File options
+    "type": "pdf",           // allowed file types: png, jpeg, pdf
+    "quality": "75",         // only used for types png & jpeg
+    //  ... More information in: https://www.npmjs.com/package/html-pdf?activeTab=readme
+}
+```
+
+* <printOption> => Parameter of the options to print, must be passed in every API call
+```javascript
+
+// Example printOptions
+let option = {
+    printer: 'Zebra', //[can be declared in GET parameter, if you specify this option, the system will choose this option as first printer]
+    pages: "1-3,5", //[The number of page that the client want to print: syntax <num-num> will print the pages from "num" to "num", <num, num> will only print the "num" and "num" pages]
+    subset: "odd", //[Will print odd pages only when value is "odd". Will print even pages only when "even"] 
+    scale: "fit",
+    copies: 1 //[Specifies how many copies will be printed]
+    //... [More options in https://github.com/artiebits/pdf-to-printer#printpdf-options--promisevoid]
+}
+```
+
+
+### API Example Calls
+
+With file `:type`
+```
+
+fetch: localhost:3000/file/MyPrinter
+
+GET
+<body;
+
+    type = file;
+
+    printer? = MyPrinter;
+>
+
+
+POST
+<body;
+
+    file = <file_data: filename.pdf>
+
+    printOptions = {
+        copies: 3
+    }
+
+>
+```
+
+
+With html `:type`
+```
+fetch: localhost:3000/html
+
+GET
+<body;
+
+    type = file;
+
+    printer? = MyPrinter;
+>
+
+
+POST
+<body;
+
+    html = <h1>Hello World!!</h1>
+
+    pdfOptions = {
+        format: "A4", 
+    }
+
+    printOptions = {
+        printer: "MyPrinter"
+        copies: 3
+    }
+
+>
+
+```
+
+
+
+
+### Love this repo? Give us a star ⭐
+
+<a href="./">
+  <img src="https://img.shields.io/badge/Printer%20Server-Rate-blue">
+</a>
