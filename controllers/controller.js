@@ -52,7 +52,9 @@ const Controller = {
                 return e;
             });
         }else{
-            return pr;
+            return {
+                name: pr
+            };
         }
     },
 
