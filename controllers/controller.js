@@ -46,11 +46,15 @@ const Controller = {
     getPrinter: async () => {
         // win32: https://github.com/artiebits/pdf-to-printer#getdefaultprinter--promiseprinter--null
         // unix: https://github.com/artiebits/unix-print#getdefaultprinter--promiseprinter--null
-        let res;
-        return await Model.Printer.getDefaultPrinter()
-        .then(e => {
-            return e;
-        });
+        let pr = Model.getDefaultPrintingOptions()['printer'];
+        if(pr == "[default]"){
+            return await Model.Printer.getDefaultPrinter()
+            .then(e => {
+                return e;
+            });
+        }else{
+            return pr;
+        }
     },
 
     ACCEPTED_TYPE_FILE: ['file', 'html'],
