@@ -1,0 +1,94 @@
+<!-- External view -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/print.css">
+    <title>打印发票 - Zheng</title>
+</head>
+<body>
+    <header class="text-center p-3 pt-5 text-muted">
+        <h3>发票机 - 打印机</h3>
+    </header>
+    <main class="mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-6 px-2">
+                    <div class="d-flex align-items-center justify-content-around flex-column">
+                        <h4>物品</h4>
+                        <div class="mt-5 mb-1 w-100 d-flex justify-content-between">
+                            <div>
+                                <button class="btn btn-light" onclick="deleteAll()">清除</button>
+                                <button class="btn btn-light" onclick="undoRow()">撤销</button>
+                            </div>
+                            <button class="btn btn-dark" onclick="appendRow()">添加</button>
+                        </div>
+                        <table class="table table-bordered table-responsive-md table-striped text-center" id="product-table">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">数量</th>
+                                    <th class="text-center">单价</th>
+                                    <th class="text-center">名称</th>
+                                    <th class="text-center">取消</th>
+                                </tr>
+                            </thead>
+                            <tbody class="t_body">
+                                <tr>
+                                    <td class="pt-3-half" contenteditable="true">1</td>
+                                    <td class="pt-3-half" contenteditable="true"></td>
+                                    <td class="pt-3-half" contenteditable="true" onblur="calcTotal()"></td>
+                                    <td>
+                                        <span class="table-remove"><a type="button" onclick="deleteRow(this)" class="text-danger my-0">删除</a></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="my-5 w-100 d-flex justify-content-center">
+                            <button class="btn btn-primary mx-2" onclick="printReceipt()">打印小票</button>
+                            <button class="btn btn-secondary mx-2" onclick="printBill()">打印发票</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 px-2">
+                    <div class="d-flex justify-content-center">
+                        <div class="w-75 p-4 bg-light rounded">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>主机:</span>
+                                <a href="/config"><b><%= def.name %></b></a>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>配色:</span>
+                                <b>黑白</b>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <span>数量:</span>
+                                <b>1</b>
+                            </div>
+                            <hr>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>物品:</span>
+                                <b class="pr">1</b>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>总价格:</span>
+                                <b><span class="total">0.00</span> €</b>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <span>IVA (20%):</span>
+                                <b><span class="iva">0.00</span> €</b>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="mt-5 p-4 bg-white p-fixed fixed-bottom text-center text-muted">
+        <small>Copyright 2022 - Zheng Lin Lei</small>
+    </footer>
+</body>
+<script src="/js/print.js"></script>
+</html>

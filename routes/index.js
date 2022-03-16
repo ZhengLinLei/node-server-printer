@@ -44,6 +44,13 @@ router.post('/config', (req, res) =>{
     res.json({"status":  "ok"});
 });
 
+router.get('/zheng', async (req, res) => {
+    let def = await Controller.getPrinter(); 
+    res.render('print', {
+        def
+    });
+})
+
 router.post('/print/:type/:printer?', async (req, res) =>{
     // The type paerameter must be [file, html]
     // File .jpg, .pdf, .png; <file> event
