@@ -9,7 +9,7 @@
     <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt=" License" />
   </a>&nbsp;
   <a>
-    <img src="https://img.shields.io/badge/version-0.6-brightgreen" alt="Version" /> 
+    <img src="https://img.shields.io/badge/version-0.8-brightgreen" alt="Version" /> 
     <!-- v0.6 -->
   </a>&nbsp;
   <a>
