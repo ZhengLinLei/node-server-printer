@@ -51,6 +51,25 @@ router.get('/zheng', async (req, res) => {
     });
 })
 
+router.get('/openCashDrawer', (req, res) =>{
+    // DISABLE OR ACTIVE THIS OPTION
+    const activate = true;
+
+    if(activate){
+        try {
+            Controller.openCashDrawer()
+            res.json({"status":  "ok"});
+        } catch (error) {
+            res.json({
+                "status":  "error",
+                "code": "escpos-error",
+                "message": error
+            });
+        }
+    }
+
+});
+
 router.post('/print/:type/:printer?', async (req, res) =>{
     // The type paerameter must be [file, html]
     // File .jpg, .pdf, .png; <file> event
