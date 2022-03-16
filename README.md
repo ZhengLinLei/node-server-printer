@@ -29,6 +29,7 @@ This project was made with the support of those packages:
 - [https://github.com/artiebits/unix-print](https://github.com/artiebits/unix-print) Unix
 - [https://www.npmjs.com/package/zuzel-printer](https://www.npmjs.com/package/zuzel-printer) Support package
 - [https://github.com/marcbachmann/node-html-pdf](https://github.com/marcbachmann/node-html-pdf) PDF conversor
+- [https://github.com/song940/node-escpos](https://github.com/song940/node-escpos) Cash Drawer
 
 
 ## ⚙ How does it work?
@@ -47,6 +48,7 @@ This project create a Node server where any device can connect to the web server
 3. [Execution](#exe)
 4. [API](#api)
 5. [How to print?](#howto)
+6. [Open Cash Drawer](#cashdrawer)
 
 
 ## <a name="installation"></a> Installation
@@ -419,6 +421,19 @@ POST
 
 ```
 
+
+## <a name="cashdrawer"></a> Open Cash Drawer
+
+The query path is : `server.domain/openCashDrawer` in ``GET` method:
+
+Example: JS
+```js
+fetch('/openCashDrawer')
+  .then(response => response.json())
+  .then(data => console.log);
+```
+
+Configurate it in `./controllers/controllers.js [99-106]`
 
 
 

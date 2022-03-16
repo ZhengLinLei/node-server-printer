@@ -4,6 +4,7 @@ const path = require('path');
 
 var pdf = require('html-pdf');
 
+const escpos = require('escpos');
 
 // Model
 const Model = require('../models/model');
@@ -91,6 +92,17 @@ const Controller = {
         Model.printFile('../tmp/'+filename, options, {
             "printer": Controller.getPrinter().name
         }, fnc);
+    },
+
+
+    // Open the cash drawer for receipt printer
+    openCashDrawer: () => {
+        const device 	= new escpos.USB(); // 0x0416, 0x5011
+        var printer 	= new escpos.Printer(device);
+
+        printer.cashdraw();
+
+        return true;
     }
 }
 
