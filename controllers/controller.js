@@ -13,7 +13,7 @@ const Controller = {
     // Clean '/tmp/' folder
     cleanTMP_: () => {
         console.log('[server] Cleaning Temporal Files...');
-        fs_e.emptyDirSync('../tmp');
+        fs_e.emptyDirSync('./tmp');
     },
 
     DATA_DEFAULT: Model.DATA_DEFAULT,
@@ -48,10 +48,7 @@ const Controller = {
         // unix: https://github.com/artiebits/unix-print#getdefaultprinter--promiseprinter--null
         let pr = fs.readFileSync('./data/printer.txt', 'utf8');
         if(pr == "[default]"){
-            return await Model.Printer.getDefaultPrinter()
-            .then(e => {
-                return e;
-            });
+            return await Model.Printer.getDefaultPrinter();
         }else{
             return {
                 name: pr
@@ -70,7 +67,7 @@ const Controller = {
 
         let name = Model.tmpNameGenerator(5) + file.name;
 
-        file.mv('../tmp/' + name);
+        file.mv('./tmp/' + name);
 
         return name;
     },
@@ -80,7 +77,7 @@ const Controller = {
         let name = Model.tmpNameGenerator(8) + '.pdf';
 
         try {
-            await pdf.create(html, options).toFile('../tmp/' + name); // Asynchronus function
+            await pdf.create(html, options).toFile('./tmp/' + name); // Asynchronus function
             return name;
         } catch (error) {
             return false;

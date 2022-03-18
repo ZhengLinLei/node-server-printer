@@ -24,10 +24,11 @@ const Model = {
     },
 
     getDefaultPrintingOptions: () => {
-        let options;
+        let options = [];
 
         Model.DATA_DEFAULT.forEach(el =>{
             let output = fs.readFileSync(`./data/${el}.txt`, 'utf8');
+            console.log(output)
 
             options[el] = output;
         });
