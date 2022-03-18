@@ -134,13 +134,13 @@ router.post('/print/:type/:printer?', async (req, res) =>{
     // 
 
 
-    if(Controller.ACCEPTED_TYPE_FILE.includes(req.query.type)){
+    if(Controller.ACCEPTED_TYPE_FILE.includes(req.params.type)){
 
         // Pass the parameters
         let tmpFile;
 
 
-        switch (req.query.type) {
+        switch (req.params.type) {
             case Controller.ACCEPTED_TYPE_FILE[0]:
                 tmpFile = await Controller.uploadedFile(req.files);
                 break;
