@@ -27,7 +27,7 @@ const Model = {
         let options;
 
         Model.DATA_DEFAULT.forEach(el =>{
-            let output = fs.readFileSync(`../data/${el}.txt`, 'utf8');
+            let output = fs.readFileSync(`./data/${el}.txt`, 'utf8');
 
             options[el] = output;
         });
