@@ -346,7 +346,7 @@ let config = {
 }
 ```
 
-* <printOption> => Parameter of the options to print, must be passed in every API call
+* [printOption] => Parameter of the options to print, must be passed in every API call
 ```javascript
 
 // Example printOptions
