@@ -49,7 +49,10 @@ router.get('/zheng', async (req, res) => {
     res.render('print', {
         def
     });
-})
+});
+router.get('/cashDrawer', (req, res) =>{
+    res.render('cashDrawer');
+});
 
 router.get('/openCashDrawer', (req, res) =>{
     // DISABLE OR ACTIVE THIS OPTION

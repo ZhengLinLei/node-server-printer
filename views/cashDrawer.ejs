@@ -1,0 +1,50 @@
+<!-- External view -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+    <title>打开金柜 - Zheng</title>
+    <style>
+        .noselect {
+            -webkit-touch-callout: none; /* iOS Safari */
+                -webkit-user-select: none; /* Safari */
+                -khtml-user-select: none; /* Konqueror HTML */
+                -moz-user-select: none; /* Old versions of Firefox */
+                    -ms-user-select: none; /* Internet Explorer/Edge */
+                        user-select: none; /* Non-prefixed version, currently
+                                            supported by Chrome, Edge, Opera and Firefox */
+                
+            width: 100vw;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body class="noselect">
+    <h3>请 [双击] 或 [F10] 使用</h3>
+    <footer class="mt-5 p-4 bg-white p-fixed fixed-bottom text-center text-muted">
+        <small>Copyright 2022 - Zheng Lin Lei</small>
+    </footer>
+</body>
+<script>
+    function open(){
+        // fetch('/openCashDrawer');
+        alert('aa')
+    }
+
+    window.addEventListener('dblclick', open);
+    window.addEventListener('keydown', e => {
+        if(e.key == "F10"){
+            e.preventDefault()
+            open()
+        }
+    })
+</script>
+</html>

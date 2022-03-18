@@ -19,6 +19,11 @@ window.addEventListener('keydown', e => {
                     break;
             }
         }
+    }else{
+        if(e.key == "F10"){
+            e.preventDefault();
+            fetch('/openCashDrawer');
+        }
     }
 });
 
@@ -353,5 +358,31 @@ const printBill = () =>{
 
    
 const printAll = html =>{
+    let reset = false;
 
+    fetch("/print/html",{
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        method: "POST",
+        body: JSON.stringify({
+            html: html,
+            pdfOption: {
+                height: "80cm",
+                width: "1000cm",
+                border: '10px'
+            }
+        })
+    })
+    .then(e => e.json())
+    .then(e => {
+        if(e.status == "ok"){
+            reset = true;
+        }
+    });
+
+    if(reset){
+        deleteAll()
+    }
 }
